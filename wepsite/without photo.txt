@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>مینوو - Khal Rest</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome for icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-pV7N+2R+3bGpGddvVbVktp6pksdS3ow8qRXuh1bYPp+FQ9mgxRc6ROVJqvo0a9pOIrSVT4l+uLRsNU6rH/V4BQ=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
+  <style>
+    /* Reset and base */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: #fffdf9;
+      margin: 0;
+      padding: 0;
+      direction: rtl;
+      color: #4a3b2f;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    header {
+      background: #fdf3e7;
+      padding: 30px 20px;
+      box-shadow: 0 2px 8px rgb(0 0 0 / 0.05);
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    header h1 {
+      font-size: 2.2rem;
+      color: #a75e22;
+      margin: 0 0 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+    }
+
+    .contact-info-header {
+      display: inline-flex;
+      gap: 14px;
+      align-items: center;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #b36e25;
+      background: #fff3dc;
+      padding: 8px 15px;
+      border-radius: 30px;
+      box-shadow: 0 2px 6px rgb(179 110 37 / 0.3);
+    }
+
+    .contact-info-header i {
+      font-size: 1.4rem;
+      color: #d27f1b;
+    }
+
+    .button-group {
+      margin: 30px auto 40px;
+      text-align: center;
+      max-width: 800px;
+    }
+
+    .menu-button {
+      background: #f4c089;
+      border: none;
+      color: #552200;
+      padding: 12px 30px;
+      margin: 0 10px;
+      font-size: 1.2rem;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 10px rgb(244 192 137 / 0.3);
+      font-weight: 700;
+      user-select: none;
+      min-width: 110px;
+      white-space: nowrap;
+    }
+
+    .menu-button:hover {
+      background-color: #f7b66c;
+      box-shadow: 0 6px 15px rgb(247 182 108 / 0.5);
+    }
+
+    .menu-button.active {
+      background-color: #d99a5c;
+      border-bottom: 4px solid #f07e26;
+      box-shadow: 0 8px 20px rgb(217 154 92 / 0.6);
+      color: #3b1e00;
+    }
+
+    #menu-image-container {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    #menu-image {
+      max-width: 220px;
+      border-radius: 15px;
+      box-shadow: 0 6px 18px rgb(0 0 0 / 0.1);
+      display: none;
+      transition: opacity 0.4s ease;
+    }
+
+    .menu-section {
+      display: none;
+      max-width: 700px;
+      margin: 0 auto 50px;
+      background: #fff;
+      padding: 25px 30px;
+      border-radius: 18px;
+      box-shadow: 0 6px 20px rgb(0 0 0 / 0.07);
+      font-size: 1.1rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 12px;
+      table-layout: fixed;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: center;
+      border-radius: 12px;
+    }
+
+    th {
+      background-color: #ffe6c4;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #9e5620;
+    }
+
+    td {
+      background-color: #fff7eb;
+      color: #6e4a21;
+      box-shadow: inset 0 -3px 8px rgb(255 255 255 / 0.7);
+      transition: background-color 0.3s ease;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+    }
+
+    tr:hover td {
+      background-color: #fff3e0;
+      cursor: default;
+    }
+
+    /* Footer */
+    .footer {
+      background: #fdf3e7;
+      text-align: center;
+      padding: 25px 15px;
+      font-size: 1.1rem;
+      color: #a36629;
+      box-shadow: inset 0 1px 5px rgb(179 110 37 / 0.15);
+    }
+
+    .address-info {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      justify-content: center;
+      font-weight: 600;
+    }
+
+    .address-info i {
+      font-size: 1.4rem;
+      color: #d27f1b;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .menu-section {
+        max-width: 90%;
+        padding: 20px 15px;
+      }
+
+      .button-group {
+        max-width: 100%;
+        padding: 0 10px;
+      }
+
+      .menu-button {
+        padding: 10px 18px;
+        font-size: 1rem;
+        margin: 5px 6px;
+        min-width: 90px;
+      }
+
+      #menu-image {
+        max-width: 180px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 1.6rem;
+      }
+
+      .contact-info-header {
+        font-size: 1rem;
+        padding: 6px 12px;
+      }
+
+      .menu-button {
+        font-size: 0.9rem;
+        padding: 8px 14px;
+        min-width: 80px;
+      }
+
+      .menu-section {
+        font-size: 1rem;
+        padding: 15px 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>خال ر ێست - Khal Rest</h1>
+    <div class="contact-info-header">
+      <i class="fas fa-phone"></i>
+      <div>
+        <div>0285 962 0750</div>
+        <div>6285 962 0750</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="button-group" role="tablist" aria-label="Menu Categories">
+    <button class="menu-button" onclick="showSection('lafa')" role="tab" aria-selected="true" aria-controls="lafa" id="tab-lafa">لەفە</button>
+    <button class="menu-button" onclick="showSection('burger')" role="tab" aria-selected="false" aria-controls="burger" id="tab-burger">هەمبەرگەر</button>
+    <button class="menu-button" onclick="showSection('pizza')" role="tab" aria-selected="false" aria-controls="pizza" id="tab-pizza">پیتزا</button>
+    <button class="menu-button" onclick="showSection('lahmacun')" role="tab" aria-selected="false" aria-controls="lahmacun" id="tab-lahmacun">لحم بعجین</button>
+  </div>
+
+  <div id="menu-image-container" aria-live="polite" aria-atomic="true">
+    <img id="menu-image" src="" alt="" />
+  </div>
+
+  <!-- Sections -->
+  <div class="menu-section" id="lafa" role="tabpanel" aria-labelledby="tab-lafa" tabindex="0">
+    <table>
+      <thead>
+      </thead>
+      <tbody>
+        <tr><td>لەفە نان لحم</td><td>2000</td></tr>
+        <tr><td>لەفە نان</td><td>1000</td></tr>
+        <tr><td>لەفە صمون</td><td>1000</td></tr>
+        <tr><td>لەفە لحم</td><td>2000</td></tr>
+        <tr><td>دونەر دجاج</td><td>2000</td></tr>
+        <tr><td>دونەر لحم</td><td>3000</td></tr>
+        <tr><td>شاورمە عەرەبی دجاج</td><td>5000</td></tr>
+        <tr><td>شاورمە عەرەبی لحم</td><td>6000</td></tr>
+        <tr><td>ڕۆلە دجاج</td><td>3000</td></tr>
+        <tr><td>ڕۆلە لحم</td><td>4000</td></tr>
+        <tr><td>بۆکس دجاج</td><td>3500</td></tr>
+        <tr><td>بۆکس لحم</td><td>5000</td></tr>
+        <tr><td>ماعون دجاج</td><td>5000</td></tr>
+        <tr><td>ماعون لحم</td><td>7000</td></tr>
+        <tr><td>فلافل نان</td><td>1000</td></tr>
+        <tr><td>فلافل صمون</td><td>1000</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="menu-section" id="burger" role="tabpanel" aria-labelledby="tab-burger" tabindex="0">
+    <table>
+      <thead>
+      </thead>
+      <tbody>
+        <tr><td>هەمبەرگەر عادی</td><td>3000</td></tr>
+        <tr><td>هەمبەرگەر دجاج عادی</td><td>2000</td></tr>
+        <tr><td>هەمبەرگەر لحم ئۆرجینال</td><td>5000</td></tr>
+        <tr><td>هەمبەرگەر دجاج ئۆرجینال</td><td>4000</td></tr>
+        <tr><td>هەمبەرگەر مقرمشە لحم</td><td>7000</td></tr>
+        <tr><td>هەمبەرگەر مقرمشە دجاج</td><td>6000</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="menu-section" id="pizza" role="tabpanel" aria-labelledby="tab-pizza" tabindex="0">
+    <table>
+      <thead>
+      </thead>
+      <tbody>
+        <tr><td>پیتزا جبن</td><td>6000</td></tr>
+        <tr><td>پیتزا خزروات</td><td>6000</td></tr>
+        <tr><td>پیتزا لحم</td><td>7000</td></tr>
+        <tr><td>پیتزا دجاج</td><td>7000</td></tr>
+        <tr><td>پیتزا سجق</td><td>7000</td></tr>
+        <tr><td>پیتزا کالسون</td><td>7000</td></tr>
+        <tr><td>پیتزا مشکل</td><td>8000</td></tr>
+        <tr><td>پیتزا ماسی</td><td>7000</td></tr>
+        <tr><td>پیتزا خال</td><td>8000</td></tr>
+        <tr><td>پیتزا رولە</td><td>7000</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="menu-section" id="lahmacun" role="tabpanel" aria-labelledby="tab-lahmacun" tabindex="0">
+    <table>
+      <thead>
+      </thead>
+      <tbody>
+        <tr><td>لحم بعجین</td><td>3000</td></tr>
+        <tr><td>لحم جبن</td><td>3500</td></tr>
+        <tr><td>لحم خزروات</td><td>3500</td></tr>
+        <tr><td>لحم مشکل</td><td>4000</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer class="footer" role="contentinfo">
+    <div class="address-info">
+      <i class="fas fa-map-marker-alt"></i>
+      <div>سێمێل - شارع رعایە / تەنشت حلویات هەرێم</div>
+    </div>
+  </footer>
+
+  <script>
+    function showSection(sectionId) {
+      const sections = document.querySelectorAll('.menu-section');
+      const buttons = document.querySelectorAll('.menu-button');
+
+      sections.forEach(section => {
+        section.style.display = 'none';
+        section.setAttribute('aria-hidden', 'true');
+      });
+      buttons.forEach(button => {
+        button.classList.remove('active');
+        button.setAttribute('aria-selected', 'false');
+      });
+
+      const activeSection = document.getElementById(sectionId);
+      activeSection.style.display = 'block';
+      activeSection.setAttribute('aria-hidden', 'false');
+
+      const activeButton = Array.from(buttons).find(
+        btn => btn.getAttribute('onclick') === `showSection('${sectionId}')`
+      );
+      activeButton.classList.add('active');
+      activeButton.setAttribute('aria-selected', 'true');
+
+      // Update image
+      const menuImage = document.getElementById('menu-image');
+      let imageSrc = '';
+      let imageAlt = '';
+
+      switch (sectionId) {
+        case 'lafa':
+          imageSrc = './images/lafa.png';
+          imageAlt = 'لەفە';
+          break;
+        case 'burger':
+          imageSrc = './images/burger.png';
+          imageAlt = 'هەمبەرگەر';
+          break;
+        case 'pizza':
+          imageSrc = './images/pizza.png';
+          imageAlt = 'پیتزا';
+          break;
+        case 'lahmacun':
+          imageSrc = './images/lahmacun.png';
+          imageAlt = 'لحم بعجین';
+          break;
+      }
+
+      if (imageSrc) {
+        menuImage.src = imageSrc;
+        menuImage.alt = imageAlt;
+        menuImage.style.display = 'inline-block';
+      } else {
+        menuImage.style.display = 'none';
+      }
+    }
+
+    // Show default section on load
+    window.addEventListener('DOMContentLoaded', () => {
+      showSection('lafa');
+    });
+  </script>
+
+</body>
+</html>
